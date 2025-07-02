@@ -1,13 +1,12 @@
 import express from "express"
-import dotenv from 'dotenv'
+import { ENV } from "./utils/env.js"
 import cors from "cors"
 import helmet from "helmet"
 import morgan from "morgan"
-
-dotenv.config()
+import { connectToDb } from "./utils/connectDb.js"
 
 const app = express()
-
+const port = ENV.PORT
 app.use(helmet({
     contentSecurityPolicy: false
 }))
@@ -19,6 +18,7 @@ app.get('/' , (req , res)=>{
     res.send("Hello World")
 })
 
-app.listen(3000 , ()=>{
-    console.log("Server is running on port 3000")
+app.listen(port , async ()=>{
+    await connectToDb()
+    console.log(`Server is running on port ${port}`)
 })

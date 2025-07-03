@@ -16,7 +16,12 @@ const schema = new mongoose.Schema({
             type : mongoose.Schema.Types.ObjectId ,
             ref : "user"
         }
-    ]
+    ],
+    content: {
+      type: String,
+      required: true,
+      maxLength: 280
+    },
 } , {timestamps : true})
 
 export const commentsModel = mongoose.models.comment || mongoose.model('comment' , schema)

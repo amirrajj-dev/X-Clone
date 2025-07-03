@@ -17,6 +17,10 @@ const schema = new mongoose.Schema({
         trim : true,
         default : ""
     },
+     imagePublicId : {
+        type: String,
+        required: true // this field gets used when we want to delete post image from cloudinary
+    },
     likes : [
         {
             type : mongoose.Schema.Types.ObjectId,

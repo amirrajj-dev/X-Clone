@@ -5,7 +5,9 @@ import helmet from "helmet"
 import morgan from "morgan"
 import { connectToDb } from "./utils/connectDb.js"
 import {clerkMiddleware} from  "@clerk/express"
+import errorMiddleware from "./middlewares/error.middleware.js"
 import userRoutes from "./routes/user.route.js"
+import postRoutes from "./routes/post.route.js"
 
 const app = express()
 const port = ENV.PORT
@@ -18,10 +20,9 @@ app.use(morgan("dev"))
 app.use(clerkMiddleware())
 
 app.use('/api/users' , userRoutes)
+app.use('/api/posts' , postRoutes)
 
-app.get('/' , (req , res)=>{
-    res.send("Hello World")
-})
+app.use(errorMiddleware)
 
 app.listen(port , async ()=>{
     await connectToDb()

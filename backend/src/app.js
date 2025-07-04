@@ -10,11 +10,13 @@ import helmet from "helmet"
 import morgan from "morgan"
 import {clerkMiddleware} from  "@clerk/express"
 import errorMiddleware from "./middlewares/error.middleware.js"
+import { arcjetMiddleware } from "./middlewares/arcjet.middleware.js"
 
 // routes
 import userRoutes from "./routes/user.route.js"
 import postRoutes from "./routes/post.route.js"
 import commentRoutes from "./routes/comment.route.js"
+import notificationRoutes from "./routes/notification.route.js"
 
 const app = express()
 const port = ENV.PORT
@@ -25,10 +27,12 @@ app.use(cors())
 app.use(express.json())
 app.use(morgan("dev"))
 app.use(clerkMiddleware())
+app.use(arcjetMiddleware)
 
 app.use('/api/users' , userRoutes)
 app.use('/api/posts' , postRoutes)
 app.use('/api/comments' , commentRoutes)
+app.use('/api/notifications' , notificationRoutes)
 
 app.use(errorMiddleware)
 

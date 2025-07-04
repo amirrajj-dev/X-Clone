@@ -1,12 +1,16 @@
-import { Text, TextInput, View } from "react-native";
-
-export default function Index() {
+import { View, Text, Pressable } from 'react-native'
+import React from 'react'
+import {useClerk} from "@clerk/clerk-expo"
+const HomeScreen = () => {
+    const {signOut} = useClerk()
   return (
-     <View className="flex-1 bg-emerald-600 items-center justify-center bg-white">
-      <Text className="text-xl font-bold text-emerald-50">
-        Welcome to Nativewind!
-      </Text>
-      <TextInput placeholder="Enter Your Name" className="bg-emerald-300 p-2 rounded-md shadow-sm w-1/2 border border-emerald-50 placeholder:text-emerald-50 focus:bg-emerald-800" />
+    <View>
+      <Text>HomeScreen</Text>
+      <Pressable onPress={()=>signOut()} className='bg-emerald-600 rounded-md px-6 py-2 shadow-sm w-1/2 items-center justify-center'>
+        <Text className='text-emerald-50'>LogOut</Text>
+      </Pressable>
     </View>
-  );
+  )
 }
+
+export default HomeScreen;

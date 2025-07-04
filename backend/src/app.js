@@ -36,7 +36,12 @@ app.use('/api/notifications' , notificationRoutes)
 
 app.use(errorMiddleware)
 
-app.listen(port , async ()=>{
-    await connectToDb()
-    console.log(`Server is running on port ${port}`)
-})
+if (ENV.NODE_ENV !== "production") {
+    app.listen(port , async ()=>{
+        await connectToDb()
+        console.log(`Server is running on port ${port}`)
+    })
+}
+
+
+export default app;

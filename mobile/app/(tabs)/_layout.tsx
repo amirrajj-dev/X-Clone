@@ -20,7 +20,7 @@ const TabsLayout = () => {
             borderTopWidth : 1,
             borderTopColor : "#9ca3af",
             height : 50 + inset.bottom ,
-            paddingTop : 8
+            paddingTop : 20
         }
     }}
     >
@@ -57,13 +57,6 @@ const TabsLayout = () => {
         options={{
             title : "",
             tabBarIcon : ({color , size})=><Feather name='user' color={color} size={size}/>
-        }}
-        />
-        <Tabs.Screen 
-        name='settings' 
-        options={{
-            title : "",
-            tabBarIcon : ({color , size})=><Feather name='settings' color={color} size={size}/>
         }}
         />
     </Tabs>

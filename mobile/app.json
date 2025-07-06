@@ -18,6 +18,9 @@
       },
       "edgeToEdgeEnabled": true
     },
+    "androidNavigationBar": {
+      "visible": "sticky-immersive"
+    },
     "web": {
       "bundler": "metro",
       "output": "static",

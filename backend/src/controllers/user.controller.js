@@ -36,8 +36,8 @@ export const syncUser = asyncHandler(async (req , res)=>{
     const user = await usersModel.findOne({
         clerkId : userId
     })
-    if(!user){
-        return res.status(404).json({message : 'User not found' , success : false})
+    if(user){
+        return res.status(200).json({message : 'User Already Exists' , success : false})
     }
     const clerkUser = await clerkClient.users.getUser(userId)
     const userData = {

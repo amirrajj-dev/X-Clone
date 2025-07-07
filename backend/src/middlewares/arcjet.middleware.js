@@ -1,38 +1,37 @@
-import { aj } from "../utils/arcjet.js";
-
-// Arcjet middleware for rate limiting, bot protection, and security
-
 export const arcjetMiddleware = async (req, res, next) => {
   try {
-    const decision = await aj.protect(req, {
-      requested: 1, // each request consumes 1 token
-    });
+    // Skip Arcjet for mobile clients (like React Native)
+    const userAgent = req.headers['user-agent'] || '';
+    if (/okhttp|reactnative|expo/i.test(userAgent)) {
+      return next(); // skip bot check for mobile app
+    }
 
-    // handle denied requests
+    const decision = await aj.protect(req, { requested: 1 });
+
     if (decision.isDenied()) {
       if (decision.reason.isRateLimit()) {
         return res.status(429).json({
           error: "Too Many Requests",
           message: "Rate limit exceeded. Please try again later.",
-          success : false
+          success: false
         });
       } else if (decision.reason.isBot()) {
         return res.status(403).json({
           error: "Bot access denied",
           message: "Automated requests are not allowed.",
-          success : false
+          success: false
         });
       } else {
         return res.status(403).json({
           error: "Forbidden",
           message: "Access denied by security policy.",
-          success : false
+          success: false
         });
       }
     }
 
-    // check for spoofed bots
-    if (decision.results.some((result) => result.reason.isBot() && result.reason.isSpoofed())) {
+    // Detect spoofed bots
+    if (decision.results.some(r => r.reason.isBot() && r.reason.isSpoofed())) {
       return res.status(403).json({
         error: "Spoofed bot detected",
         message: "Malicious bot activity detected.",
@@ -42,7 +41,6 @@ export const arcjetMiddleware = async (req, res, next) => {
     next();
   } catch (error) {
     console.error("Arcjet middleware error:", error);
-    // allow request to continue if Arcjet fails
-    next();
+    next(); // allow requests to continue if Arcjet fails
   }
 };

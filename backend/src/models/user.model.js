@@ -44,8 +44,7 @@ const schema = new mongoose.Schema({
         required : false,
         trim : true,
         default : '',
-        maxLength : 200,
-        minLength : 10
+        maxLength : 200
     },
     location : {
         type : String,
